@@ -8,9 +8,8 @@ using Products.Contracts;
 
 namespace Products.Controllers;
 
-[ApiController] // ASP.NET
-[Route("api/[controller]")]
-public class ProductsController : ControllerBase {
+[Route("[controller]")]
+public class ProductsController : ApiController {
 // every time a new request is sent to the service, 
 // the framework creates a new controller object
 	private readonly IProductsService _productsService;
@@ -33,7 +32,15 @@ public class ProductsController : ControllerBase {
 	[HttpGet("{id:int}")]
 	public IActionResult GetProduct(int id){
 		ErrorOr<Product> getProductResult = _productsService.FetchProduct(id: id);
-		if (getProductResult.IsError && getProductResult.FirstError == Errors.Products.NotFound) {
+		
+		// this line summarizes the code that is commented
+		return getProductResult.Match(
+			product => Ok(MapProductResponse(product)),
+			errors => Problem(errors)
+		);
+		
+		
+		/* if (getProductResult.IsError && getProductResult.FirstError == Errors.Products.NotFound) {
 			return NotFound();
 		}
 
@@ -48,7 +55,18 @@ public class ProductsController : ControllerBase {
 			product.Category
 		);
 
-		return Ok(response);
+		return Ok(response); */
+	}
+
+	private static ProductResponse MapProductResponse(Product product) {
+		return new ProductResponse(
+			product.ID,
+			product.Title,
+			product.Description,
+			product.Price,
+			product.Brand,
+			product.Category
+		);
 	}
 
 }
