@@ -14,7 +14,8 @@ public class ProductsService : IProductsService
 	// how do I fetch only one product?
 
 	//private readonly Dictionary<int, Product> _products = new();
-	private readonly List<Product>? _products = new();
+	//private readonly List<Product>? _products = new();
+	private readonly Dictionary<int, Product> _products = new();
 
 	public ProductsService() {
 		string jsonFilePath = "Products.json";
@@ -28,8 +29,12 @@ public class ProductsService : IProductsService
 			};
 			
 			List<Product>? products = JsonSerializer.Deserialize<List<Product>>(jsonString,  options);
+			if(products != null) {
+				foreach(var product in products) {
+					_products.Add(product.ID, product);
+				}
+			}
 			
-			_products = products;
 
 		} else {
 			Console.WriteLine($"Json File {jsonFilePath} does not exist.");
@@ -39,6 +44,15 @@ public class ProductsService : IProductsService
 
 	public Product FetchProduct(int id)
 	{
-		throw new NotImplementedException();
+		Product product = _products[id];
+		{
+			Console.WriteLine(product.ID);
+			Console.WriteLine(product.Title);
+			Console.WriteLine(product.Description);
+			Console.WriteLine(product.Price);
+			Console.WriteLine(product.Category);
+			Console.WriteLine(product.Brand);
+		}
+		return product;
 	}
 }

@@ -30,7 +30,7 @@ public class ProductsController : ControllerBase {
 	[HttpGet("{id:int}")]
 	public IActionResult GetProduct(int id){
 		Product product = _productsService.FetchProduct(id: id);
-		return Ok();
+		return Ok(product);
 	}
 
 }
