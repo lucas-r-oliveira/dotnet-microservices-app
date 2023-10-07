@@ -1,7 +1,8 @@
 using Products.Models;
+using ErrorOr;
 namespace Products.Services;
 
 
 public interface IProductsService {
-	Product FetchProduct(int id);
+	ErrorOr<Product> FetchProduct(int id);
 }

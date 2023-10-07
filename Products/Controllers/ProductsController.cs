@@ -2,6 +2,9 @@ using System.Text.Json.Nodes;
 using Microsoft.AspNetCore.Mvc;
 using Products.Models;
 using Products.Services;
+using Products.ServiceErrors;
+using ErrorOr;
+using Products.Contracts;
 
 namespace Products.Controllers;
 
@@ -29,8 +32,23 @@ public class ProductsController : ControllerBase {
 
 	[HttpGet("{id:int}")]
 	public IActionResult GetProduct(int id){
-		Product product = _productsService.FetchProduct(id: id);
-		return Ok(product);
+		ErrorOr<Product> getProductResult = _productsService.FetchProduct(id: id);
+		if (getProductResult.IsError && getProductResult.FirstError == Errors.Products.NotFound) {
+			return NotFound();
+		}
+
+		Product product = getProductResult.Value;
+
+		var response = new ProductResponse(
+			product.ID,
+			product.Title,
+			product.Description,
+			product.Price,
+			product.Brand,
+			product.Category
+		);
+
+		return Ok(response);
 	}
 
 }

@@ -1,5 +1,7 @@
 using Products.Models;
 using System.Text.Json;
+using ErrorOr;
+using Products.ServiceErrors;
 
 namespace Products.Services;
 
@@ -42,17 +44,21 @@ public class ProductsService : IProductsService
 
 	}
 
-	public Product FetchProduct(int id)
+	public ErrorOr<Product> FetchProduct(int id)
 	{
-		Product product = _products[id];
-		{
-			Console.WriteLine(product.ID);
-			Console.WriteLine(product.Title);
-			Console.WriteLine(product.Description);
-			Console.WriteLine(product.Price);
-			Console.WriteLine(product.Category);
-			Console.WriteLine(product.Brand);
-		}
-		return product;
+		
+		if (_products.TryGetValue(id, out var product)) {
+			/* {
+				Console.WriteLine(product.ID);
+				Console.WriteLine(product.Title);
+				Console.WriteLine(product.Description);
+				Console.WriteLine(product.Price);
+				Console.WriteLine(product.Category);
+				Console.WriteLine(product.Brand);
+			} */
+			return product;
+		} 
+		return Errors.Products.NotFound;
+		
 	}
 }

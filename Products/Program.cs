@@ -15,7 +15,16 @@ var  builder = WebApplication.CreateBuilder(args);
 }
 
 var app = builder.Build();
-{
+{	
+	// each one of these acts as a middleware
+	// this one in particular adds code that
+	// surrounds the following middlewares with
+	// try-catch blocks
+	// If an exception is caught, the request
+	// route is redefined to what we specify
+	// and it is re-executed.
+	app.UseExceptionHandler("/error");
+	
 	//app.UseHttpsRedirection();
 	app.MapControllers();
 	app.Run();
