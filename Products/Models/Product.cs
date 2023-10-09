@@ -5,7 +5,7 @@ public class Product
 	public int ID { get;  }
 	public string Title { get;  }
 	public string Description { get;  }
-	public int Price { get;  }
+	public float Price { get;  }
 	public string Brand { get;  }
 	public string Category { get;  }
 
@@ -14,7 +14,7 @@ public class Product
 		int id, 
 		string title, 
 		string description, 
-		int price, 
+		float price, 
 		string brand, 
 		string category
 	)

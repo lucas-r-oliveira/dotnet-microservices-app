@@ -44,7 +44,18 @@ public class ProductsService : IProductsService
 
 	}
 
-	public ErrorOr<Product> FetchProduct(int id)
+	public Product AddProduct(Product product)
+	{
+		_products.Add(product.ID, product);
+		return product;
+	}
+
+	public bool DeleteProduct(int id)
+	{
+		throw new NotImplementedException();
+	}
+
+	public ErrorOr<Product> GetProductById(int id)
 	{
 		
 		if (_products.TryGetValue(id, out var product)) {
@@ -60,5 +71,15 @@ public class ProductsService : IProductsService
 		} 
 		return Errors.Products.NotFound;
 		
+	}
+
+	public Product UpdateProduct(Product product)
+	{
+		throw new NotImplementedException();
+	}
+
+
+	public int GetProductCount() {
+		return _products.Count;
 	}
 }

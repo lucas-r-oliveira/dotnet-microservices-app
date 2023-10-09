@@ -31,7 +31,7 @@ public class ProductsController : ApiController {
 
 	[HttpGet("{id:int}")]
 	public IActionResult GetProduct(int id){
-		ErrorOr<Product> getProductResult = _productsService.FetchProduct(id: id);
+		ErrorOr<Product> getProductResult = _productsService.GetProductById(id: id);
 		
 		// this line summarizes the code that is commented
 		return getProductResult.Match(
@@ -56,6 +56,25 @@ public class ProductsController : ApiController {
 		);
 
 		return Ok(response); */
+	}
+
+	[HttpPost]
+	public IActionResult CreateProduct(CreateProductRequest request) {
+		var product = new Product(
+			// this is not very accurate, but for example purposes, it suffices.
+			_productsService.GetProductCount() + 1, 
+			request.Name,
+			request.Description,
+			request.Price, 
+			request.Brand,
+			request.Category
+		);
+		
+		_productsService.AddProduct(product);
+
+		var response = MapProductResponse(product);
+
+		return Ok(response); //TODO: refactor with ErrorOr
 	}
 
 	private static ProductResponse MapProductResponse(Product product) {

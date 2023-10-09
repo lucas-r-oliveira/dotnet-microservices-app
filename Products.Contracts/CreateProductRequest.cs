@@ -1,7 +1,6 @@
 namespace Products.Contracts;
 
-public record ProductResponse(
-	int ID,
+public record CreateProductRequest(
 	string Name,
 	string Description,
 	float Price,
