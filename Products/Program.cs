@@ -10,6 +10,7 @@ var  builder = WebApplication.CreateBuilder(args);
 	// use the same ProductsService object throughout the lifetime of the
 	// application 
 	builder.Services.AddSingleton<IProductsService, ProductsService>(); 
+	builder.Services.AddScoped<IMessageProducer, MessageProducer>();
 	//builder.Services.AddScoped<IProductsService, ProductsService>();
 	//builder.Services.AddTransient<IProductsService, ProductsService>();
 }

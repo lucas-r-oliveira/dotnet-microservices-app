@@ -13,12 +13,18 @@ public class ProductsController : ApiController {
 // every time a new request is sent to the service, 
 // the framework creates a new controller object
 	private readonly IProductsService _productsService;
+	private readonly IMessageProducer _messageProducerService;
 
-	public ProductsController(IProductsService productsService) {
+	// In-mem db
+	// public static readonly Dict _products = new(); ...
+
+	public ProductsController(IProductsService productsService, IMessageProducer messageProducer) {
 		_productsService = productsService;
+		_messageProducerService =  messageProducer;
 	}
 
 	[HttpGet]
+	//FIXME: 
 	public IActionResult ListAllProducts() {
 		// Let's return a json with all the items
 		// for now
@@ -71,6 +77,7 @@ public class ProductsController : ApiController {
 		);
 		
 		_productsService.AddProduct(product);
+		_messageProducerService.SendMessage<Product>(product);
 
 		var response = MapProductResponse(product);
 
