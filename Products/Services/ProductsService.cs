@@ -49,7 +49,7 @@ public class ProductsService : IProductsService
 		return _products.Values.ToList();
 	}
 
-	public ErrorOr<Product> GetProductById(int id)
+	/*public ErrorOr<Product> GetProductById(int id)
 	{	
 		if (_products.TryGetValue(id, out var product)) {
 			/* {
@@ -60,9 +60,16 @@ public class ProductsService : IProductsService
 				Console.WriteLine(product.Category);
 				Console.WriteLine(product.Brand);
 			} */
-			return product;
+		/*	return product;
 		} 
 		return Errors.Products.NotFound;		
+	}*/
+
+	public Product? GetProductById(int id) {
+		if(_products.TryGetValue(id, out var product)) {
+			return product;
+		}
+		return null;
 	}
 
 	public Product AddProduct(Product product)

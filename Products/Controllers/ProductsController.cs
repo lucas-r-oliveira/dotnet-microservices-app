@@ -25,12 +25,19 @@ public class ProductsController : ApiController {
 
 	[HttpGet]
 	public IEnumerable<ProductDto> GetAllProducts() {
-		// what do we actually want to return here?
-		// A list of jsons right?
 		var productsList = _productsService.GetAllProducts()
 			.Select(product => product.AsDto());
 		
 		return productsList;
+	}
+
+	[HttpGet("{id:int}")]
+	public ActionResult<ProductDto> GetProductById(int id) {
+		var product = _productsService.GetProductById(id);
+		if(product == null) {
+			return NotFound("The product you requested does not exist");
+		}
+		return product.AsDto();
 	}
 
 
