@@ -24,19 +24,17 @@ public class ProductsController : ApiController {
 	}
 
 	[HttpGet]
-	//FIXME: 
-	public IActionResult ListAllProducts() {
-		// Let's return a json with all the items
-		// for now
-		string allText = System.IO.File.ReadAllText("Products.json");
-
-		JsonNode? json = JsonObject.Parse(allText);
-
-		return Ok(json);
+	public IEnumerable<ProductDto> GetAllProducts() {
+		// what do we actually want to return here?
+		// A list of jsons right?
+		var productsList = _productsService.GetAllProducts()
+			.Select(product => product.AsDto());
+		
+		return productsList;
 	}
 
-	[HttpGet("{id:int}")]
-	public IActionResult GetProduct(int id){
+
+	/*public IActionResult GetProductById(int id){
 		ErrorOr<Product> getProductResult = _productsService.GetProductById(id: id);
 		
 		// this line summarizes the code that is commented
@@ -61,8 +59,13 @@ public class ProductsController : ApiController {
 			product.Category
 		);
 
-		return Ok(response); */
-	}
+		return Ok(response); *//*
+	}*/
+	/*[HttpGet("{id:int}")]
+	public ActionResult<ProductDto> GetProductById(int id){
+		var product = _productsService.GetProductById(id);
+		return Ok();
+	}*/
 
 	[HttpPost]
 	public IActionResult CreateProduct(CreateProductRequest request) {
@@ -82,6 +85,11 @@ public class ProductsController : ApiController {
 		var response = MapProductResponse(product);
 
 		return Ok(response); //TODO: refactor with ErrorOr
+	}
+
+	[HttpPut("id:int")]
+	public IActionResult UpdateProduct(int id, UpdateProductRequest request) {
+		return Ok();
 	}
 
 	private static ProductResponse MapProductResponse(Product product) {

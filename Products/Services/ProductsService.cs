@@ -44,20 +44,13 @@ public class ProductsService : IProductsService
 
 	}
 
-	public Product AddProduct(Product product)
+	public List<Product> GetAllProducts()
 	{
-		_products.Add(product.ID, product);
-		return product;
-	}
-
-	public bool DeleteProduct(int id)
-	{
-		throw new NotImplementedException();
+		return _products.Values.ToList();
 	}
 
 	public ErrorOr<Product> GetProductById(int id)
-	{
-		
+	{	
 		if (_products.TryGetValue(id, out var product)) {
 			/* {
 				Console.WriteLine(product.ID);
@@ -69,8 +62,18 @@ public class ProductsService : IProductsService
 			} */
 			return product;
 		} 
-		return Errors.Products.NotFound;
-		
+		return Errors.Products.NotFound;		
+	}
+
+	public Product AddProduct(Product product)
+	{
+		_products.Add(product.ID, product);
+		return product;
+	}
+
+	public bool DeleteProduct(int id)
+	{
+		throw new NotImplementedException();
 	}
 
 	public Product UpdateProduct(Product product)
