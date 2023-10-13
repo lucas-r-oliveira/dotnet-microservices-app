@@ -1,18 +1,21 @@
+using System.Text.Json.Serialization;
+
 namespace Products.Models;
 
 public class Product
 {
 	public int ID { get;  }
-	public string Title { get;  }
-	public string Description { get;  }
-	public float Price { get;  }
-	public string Brand { get;  }
-	public string Category { get;  }
+	[JsonPropertyName("title")]
+	public string Name { get; set; }
+	public string Description { get; set; }
+	public float Price { get; set; }
+	public string Brand { get; set; }
+	public string Category { get; set; }
 
 
 	public Product(
 		int id, 
-		string title, 
+		string name, 
 		string description, 
 		float price, 
 		string brand, 
@@ -21,7 +24,7 @@ public class Product
 	{
 		// enforce constraints / invariants here
 		ID = id;
-		Title = title;
+		Name = name;
 		Description = description;
 		Price = price; 
 		Brand = brand;

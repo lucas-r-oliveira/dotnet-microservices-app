@@ -1,6 +1,6 @@
 namespace Products.Contracts;
 
-public record CreateProductRequest(
+public record CreateOrUpdateProductDto(
 	string Name,
 	string Description,
 	float Price,

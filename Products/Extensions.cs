@@ -10,7 +10,7 @@ public static class Extensions {
 	public static ProductDto AsDto(this Product product) {
 		return new ProductDto(
 			product.ID,
-			product.Title,
+			product.Name,
 			product.Description,
 			product.Price,
 			product.Brand,
